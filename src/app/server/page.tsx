@@ -1,9 +1,12 @@
-import { trpcClient } from "@/client/trpc";
-import Link from "next/link";
-import { FC, use } from "react";
+import Link from 'next/link'
+import { use } from 'react'
+
+import { trpcClient } from '@/client/trpc'
+
+import type { FC } from 'react'
 
 const Server: FC = () => {
-  const blogList = use(trpcClient.getBlogList.query());
+  const blogList = use(trpcClient.getBlogList.query())
 
   return (
     <div>
@@ -16,7 +19,7 @@ const Server: FC = () => {
         <Link href="/">Home</Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Server;
+export default Server

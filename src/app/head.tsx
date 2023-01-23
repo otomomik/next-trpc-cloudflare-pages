@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from 'react'
 
 const Head: FC = () => {
   return (
@@ -7,7 +7,7 @@ const Head: FC = () => {
       <meta content="width=device-width, initial-scale=1" name="viewport" />
       <link rel="icon" href="/favicon.ico" />
     </>
-  );
-};
+  )
+}
 
-export default Head;
+export default Head

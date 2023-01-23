@@ -1,6 +1,7 @@
-import { mergeRouters } from "@/server/trpc";
-import { blogRouter } from "./blog";
+import { mergeRouters } from '@/server/trpc'
 
-export const appRouter = mergeRouters(blogRouter);
+import { blogRouter } from './blog'
 
-export type AppRouter = typeof appRouter;
+export const appRouter = mergeRouters(blogRouter)
+
+export type AppRouter = typeof appRouter

@@ -1,12 +1,16 @@
-import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
-import { NextRequest } from "next/server";
-import { appRouter } from "@/server/routers/_app";
+import { fetchRequestHandler } from '@trpc/server/adapters/fetch'
 
-export function middleware(req: NextRequest) {
-  return fetchRequestHandler({
-    endpoint: "/api/trpc",
+import { appRouter } from '@/server/routers/_app'
+
+import type { NextRequest } from 'next/server'
+
+const middleware = async (req: NextRequest): Promise<Response> => {
+  return await fetchRequestHandler({
+    endpoint: '/api/trpc',
     req,
     router: appRouter,
     createContext: () => ({}),
-  });
+  })
 }
+
+export default middleware

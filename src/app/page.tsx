@@ -1,5 +1,6 @@
-import Link from "next/link";
-import { FC, use } from "react";
+import Link from 'next/link'
+
+import type { FC } from 'react'
 
 const Home: FC = () => {
   return (
@@ -14,7 +15,7 @@ const Home: FC = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
