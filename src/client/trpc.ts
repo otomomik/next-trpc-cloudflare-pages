@@ -7,7 +7,9 @@ console.log(process.env)
 export const trpcClient = createTRPCProxyClient<AppRouter>({
   links: [
     httpBatchLink({
-      url: `${process.env.NEXT_PUBLIC_API_URL}/api/trpc`,
+      url: `${
+        process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'
+      }/api/trpc`,
     }),
   ],
 })
