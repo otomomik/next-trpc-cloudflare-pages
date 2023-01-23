@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from "react";
+import type { FC, PropsWithChildren } from 'react'
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -8,7 +8,7 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => {
       </head>
       <body>{children}</body>
     </html>
-  );
-};
+  )
+}
 
-export default RootLayout;
+export default RootLayout
