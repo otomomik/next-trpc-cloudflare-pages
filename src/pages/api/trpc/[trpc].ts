@@ -1,10 +1,12 @@
-import { createNextApiHandler } from "@trpc/server/adapters/next";
-import { createContext } from "@/server/context";
+import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
+import { NextRequest } from "next/server";
 import { appRouter } from "@/server/routers/_app";
 
-export default createNextApiHandler({
-  router: appRouter,
-  createContext(options) {
-    return createContext(options);
-  },
-});
+export function middleware(req: NextRequest) {
+  return fetchRequestHandler({
+    endpoint: "/api/trpc",
+    req,
+    router: appRouter,
+    createContext: () => ({}),
+  });
+}
