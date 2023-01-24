@@ -1,14 +1,14 @@
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch'
 
-import { appRouter } from '@/server/routers/_app'
+import { appPublicRouter } from '@/server/routers/public/_app'
 
 import type { NextRequest } from 'next/server'
 
 const middleware = async (req: NextRequest): Promise<Response> => {
   return await fetchRequestHandler({
-    endpoint: '/api/trpc',
+    endpoint: '/api/public/trpc',
     req,
-    router: appRouter,
+    router: appPublicRouter,
     createContext: () => ({}),
   })
 }
