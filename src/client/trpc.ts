@@ -10,6 +10,11 @@ export const trpcClient = createTRPCProxyClient<AppRouter>({
       url: `${
         process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'
       }/api/trpc`,
+      headers: () => {
+        return {
+          authorization: `Bearer `,
+        }
+      },
     }),
   ],
 })
