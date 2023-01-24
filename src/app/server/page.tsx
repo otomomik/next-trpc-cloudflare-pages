@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import { use } from 'react'
 
-import { trpcClient } from '@/client/trpc'
+import { trpcPublicClient } from '@/client/trpc'
 
 import type { FC } from 'react'
 
 const Server: FC = () => {
-  const blogList = use(trpcClient.getBlogList.query())
+  const blogList = use(trpcPublicClient.getBlogList.query())
 
   return (
     <div>

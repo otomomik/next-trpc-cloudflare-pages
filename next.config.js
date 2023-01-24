@@ -4,7 +4,6 @@ const nextConfig = {
     runtime: 'experimental-edge',
     appDir: true,
   },
-  reactStrictMode: false,
 }
 
 module.exports = nextConfig
