@@ -1,0 +1,102 @@
+diff --git a/node_modules/@cloudflare/next-on-pages/dist/index.js b/node_modules/@cloudflare/next-on-pages/dist/index.js
+index 7592663..2886959 100644
+--- a/node_modules/@cloudflare/next-on-pages/dist/index.js
++++ b/node_modules/@cloudflare/next-on-pages/dist/index.js
+@@ -5868,35 +5868,6 @@ var prepVercel = async () => {
+       JSON.stringify({ projectId: "_", orgId: "_", settings: {} })
+     );
+   }
+-  console.log("\u26A1\uFE0F");
+-  console.log("\u26A1\uFE0F Installing 'vercel' CLI...");
+-  console.log("\u26A1\uFE0F");
+-  const vercelBuild = (0, import_child_process.spawn)("npm", ["install", "-D", "vercel"]);
+-  vercelBuild.stdout.on("data", (data2) => {
+-    const lines = data2.toString().split("\n");
+-    lines.map((line) => {
+-      console.log(`\u25B2 ${line}`);
+-    });
+-  });
+-  vercelBuild.stderr.on("data", (data2) => {
+-    const lines = data2.toString().split("\n");
+-    lines.map((line) => {
+-      console.log(`\u25B2 ${line}`);
+-    });
+-  });
+-  await new Promise((resolve2, reject) => {
+-    vercelBuild.on("close", (code) => {
+-      if (code === 0) {
+-        resolve2(null);
+-      } else {
+-        reject();
+-      }
+-    });
+-  });
+-  console.log("\u26A1\uFE0F");
+-  console.log("\u26A1\uFE0F");
+-  console.log("\u26A1\uFE0F Completed 'npx vercel build'.");
+-  console.log("\u26A1\uFE0F");
+ };
+ var buildVercel = async () => {
+   console.log("\u26A1\uFE0F");
+@@ -6183,7 +6154,9 @@ var transform = async ({
+       ([name, { matchers, filepath }]) => `"${name}": { matchers: ${JSON.stringify(
+         matchers
+       )}, entrypoint: require('${filepath}')}`
+-    ).join(",")}};`
++    ).join(",")}};
++    
++    export const __ENV__ = {};`
+   );
+   await (0, import_esbuild.build)({
+     entryPoints: [(0, import_path.join)(__dirname, "../templates/_worker.js")],
+@@ -6198,6 +6171,20 @@ var transform = async ({
+       __CONFIG__: JSON.stringify(config)
+     },
+     outfile: ".vercel/output/static/_worker.js"
++  }).then(async () => {
++    if(!process.argv.includes("--watch")) {
++      return;
++    };
++    try {
++      await (0, import_promises.stat)(".preview/.vercel/project.json");;
++    } catch {
++      await (0, import_promises.mkdir)(".preview", { recursive: true });;
++    };
++    try {
++      import_child_process.spawn("cp", ["-rfp", ".vercel", ".preview/."]);
++    } catch(err) {
++      console.error(err);
++    };
+   });
+   console.log("\u26A1\uFE0F Generated '.vercel/output/static/_worker.js'.");
+ };
+@@ -6253,8 +6240,10 @@ var main = async ({
+         "node_modules",
+         ".vercel",
+         ".next",
++        ".preview",
+         "package-lock.json",
+-        "yarn.lock"
++        "yarn.lock",
++        ".husky"
+       ],
+       ignoreInitial: true
+     }).on("all", () => {
+diff --git a/node_modules/@cloudflare/next-on-pages/templates/_worker.js/index.ts b/node_modules/@cloudflare/next-on-pages/templates/_worker.js/index.ts
+index 42bf66a..a26d216 100644
+--- a/node_modules/@cloudflare/next-on-pages/templates/_worker.js/index.ts
++++ b/node_modules/@cloudflare/next-on-pages/templates/_worker.js/index.ts
+@@ -126,10 +126,13 @@ declare const __FUNCTIONS__: EdgeFunctions;
+ 
+ declare const __MIDDLEWARE__: EdgeFunctions;
+ 
++declare const __ENV__: Record<string, unknown>;
++
+ export default {
+   async fetch(request, env, context) {
+     const { pathname } = new URL(request.url);
+     const routes = routesMatcher({ request }, __CONFIG__.routes);
++    Object.assign(__ENV__, env);
+ 
+     for (const route of routes) {
+       if ("middlewarePath" in route && route.middlewarePath in __MIDDLEWARE__) {

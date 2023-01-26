@@ -1,6 +1,7 @@
 import { createTRPCProxyClient, loggerLink, httpBatchLink } from '@trpc/client'
 
 import type { AppPublicRouter } from '@/server/routers/public/_app'
+import { getApiUrl } from '@/utils'
 
 export const trpcPublicClient = createTRPCProxyClient<AppPublicRouter>({
   links: [
@@ -11,9 +12,7 @@ export const trpcPublicClient = createTRPCProxyClient<AppPublicRouter>({
         (options.direction === 'down' && options.result instanceof Error),
     }),
     httpBatchLink({
-      url: `${
-        process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'
-      }/api/public/trpc`,
+      url: `${getApiUrl()}/api/public/trpc`,
     }),
   ],
 })
