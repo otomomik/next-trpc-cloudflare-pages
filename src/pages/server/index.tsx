@@ -1,13 +1,25 @@
 import Link from 'next/link'
-import { use } from 'react'
 
 import { trpcPublicClient } from '@/client/trpc'
 
+import type { GetServerSideProps } from 'next'
 import type { FC } from 'react'
 
-const Server: FC = () => {
-  const blogList = use(trpcPublicClient.getBlogList.query())
+interface Props {
+  blogList: string[]
+}
 
+export const getServerSideProps: GetServerSideProps<Props> = async () => {
+  const blogList = await trpcPublicClient.getBlogList.query()
+
+  return {
+    props: {
+      blogList,
+    },
+  }
+}
+
+const Server: FC<Props> = ({ blogList }) => {
   return (
     <div>
       <h1>Server</h1>
