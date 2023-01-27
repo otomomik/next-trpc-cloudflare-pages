@@ -1,6 +1,6 @@
 {
-  "name": "next-trpc",
-  "version": "0.0.3",
+  "name": "next-trpc-cloudflare-pages",
+  "version": "0.0.4",
   "private": true,
   "license": "MIT",
   "scripts": {
